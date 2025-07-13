@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Lottery Picker - Number Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
+     crossorigin="anonymous"></script>
+    
+    <!-- Meta tags for better ad targeting -->
+    <meta name="description" content="Advanced lottery number generator with payment management - Pick random numbers for games, decisions, and fun!">
+    <meta name="keywords" content="lottery, random number generator, lucky numbers, pick numbers, lottery simulator, number management">
+    <meta property="og:title" content="Lucky Lottery Picker - Advanced Number Management System">
+    <meta property="og:description" content="Generate random numbers for lottery, games, and decisions. Advanced payment management and number visualization!">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <!-- Top Banner Ad -->
+    <div class="ad-container ad-top">
+        <div class="ad-placeholder" id="adTop">
+            <p>Advertisement</p>
+            <!-- Google AdSense Banner Ad -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                 data-ad-slot="YOUR_AD_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>🎰 Lucky Lottery Picker</h1>
+            <p>Lottery Winner Selection & Number Management System</p>
+            <div class="header-controls">
+                <button id="toggleAdminBtn" class="admin-btn">🔧 Admin Panel</button>
+                <button id="toggleViewBtn" class="view-btn">📊 Number Grid</button>
+            </div>
+        </header>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="admin-panel" style="display: none;">
+            <h2>🔧 Admin Panel</h2>
+            <div class="admin-controls">
+                <div class="admin-section">
+                    <h3>Payment Management</h3>
+                    <div class="payment-filters">
+                        <button id="showPendingBtn" class="filter-btn active">Pending</button>
+                        <button id="showPaidBtn" class="filter-btn">Paid</button>
+                        <button id="showAllBtn" class="filter-btn">All</button>
+                    </div>
+                    <div class="payment-list" id="paymentList">
+                        <!-- Payment entries will be populated here -->
+                    </div>
+                </div>
+                <div class="admin-section">
+                    <h3>System Settings</h3>
+                    <div class="setting-group">
+                        <label for="numberRange">Number Range:</label>
+                        <input type="number" id="adminMinRange" placeholder="Min" value="1">
+                        <input type="number" id="adminMaxRange" placeholder="Max" value="100">
+                        <button id="updateRangeBtn" class="update-btn">Update Range</button>
+                    </div>
+                    <div class="setting-group">
+                        <label for="pricePerNumber">Price per Number:</label>
+                        <input type="number" id="pricePerNumber" placeholder="0.00" step="0.01" value="1.00">
+                        <button id="updatePriceBtn" class="update-btn">Update Price</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="setup-section">
+                <h2>Set Your Range</h2>
+                <div class="range-inputs">
+                    <div class="input-group">
+                        <label for="minNumber">Minimum Number:</label>
+                        <input type="number" id="minNumber" value="1" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="maxNumber">Maximum Number:</label>
+                        <input type="number" id="maxNumber" value="100" min="1">
+                    </div>
+                </div>
+                <div class="price-info">
+                    <p>Price per number: <span id="currentPrice">$1.00</span></p>
+                </div>
+                <button id="pickButton" class="pick-btn">🎲 Pick Winner!</button>
+            </div>
+
+            <!-- Number Grid Visualization -->
+            <div id="numberGridSection" class="number-grid-section" style="display: none;">
+                <h2>📊 Number Availability Grid</h2>
+                <div class="grid-controls">
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-color available"></span>
+                            <span>Available</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color reserved"></span>
+                            <span>Reserved (Purchased)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color sold"></span>
+                            <span>Sold (Paid)</span>
+                        </div>
+                    </div>
+                    <div class="grid-filters">
+                        <button id="showAvailableBtn" class="grid-filter-btn active">Available</button>
+                        <button id="showReservedBtn" class="grid-filter-btn">Reserved</button>
+                        <button id="showSoldBtn" class="grid-filter-btn">Sold</button>
+                        <button id="showAllNumbersBtn" class="grid-filter-btn">All</button>
+                    </div>
+                </div>
+                <div class="number-grid" id="numberGrid">
+                    <!-- Numbers will be populated here -->
+                </div>
+                <div class="grid-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Available:</span>
+                        <span class="stat-value" id="availableCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Reserved:</span>
+                        <span class="stat-value" id="reservedCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Sold:</span>
+                        <span class="stat-value" id="soldCount">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Ad (Desktop) -->
+            <div class="ad-sidebar">
+                <div class="ad-placeholder" id="adSidebar">
+                    <p>Advertisement</p>
+                    <!-- Google AdSense Sidebar Ad -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                         data-ad-slot="YOUR_SIDEBAR_AD_SLOT"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                </div>
+            </div>
+
+            <div class="countdown-section" id="countdownSection" style="display: none;">
+                <h2>🎲 Rolling the Dice...</h2>
+                <div class="countdown-display">
+                    <div class="countdown-circle">
+                        <span id="countdownNumber">10</span>
+                    </div>
+                </div>
+                <p class="countdown-text">Your lucky number will appear in...</p>
+            </div>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <h2>🎉 Lottery Winner!</h2>
+                <div class="number-display" id="numberDisplay">
+                    <span id="resultNumber">?</span>
+                </div>
+                <div class="winner-info" id="winnerInfo" style="display: none;">
+                    <h3>🏆 Winner Details</h3>
+                    <div class="winner-details">
+                        <p><strong>Name:</strong> <span id="winnerName">-</span></p>
+                        <p><strong>Phone:</strong> <span id="winnerPhone">-</span></p>
+                        <p><strong>Purchase Date:</strong> <span id="winnerDate">-</span></p>
+                    </div>
+                </div>
+                <div class="result-info">
+                    <p>Range: <span id="rangeInfo">1 - 100</span></p>
+                    <p>Picked at: <span id="timestamp">-</span></p>
+                    <p>Status: <span id="numberStatus">Available</span></p>
+                </div>
+                <div class="result-actions">
+                    <button id="reserveNumberBtn" class="reserve-btn">Purchase Number</button>
+                    <button id="pickAgainBtn" class="pick-again-btn">Pick Another Winner</button>
+                </div>
+            </div>
+
+            <!-- Middle Banner Ad -->
+            <div class="ad-container ad-middle">
+                <div class="ad-placeholder" id="adMiddle">
+                    <p>Advertisement</p>
+                    <!-- Google AdSense Middle Banner -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                         data-ad-slot="YOUR_MIDDLE_AD_SLOT"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h2>Recent Picks</h2>
+                <div class="history-list" id="historyList">
+                    <p class="no-history">No picks yet. Try your luck!</p>
+                </div>
+                <button id="clearHistoryBtn" class="clear-btn">Clear History</button>
+            </div>
+        </main>
+
+        <!-- Bottom Banner Ad -->
+        <div class="ad-container ad-bottom">
+            <div class="ad-placeholder" id="adBottom">
+                <p>Advertisement</p>
+                <!-- Google AdSense Bottom Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_BOTTOM_AD_SLOT"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
+        </div>
+
+        <footer>
+            <p>Made with ❤️ for advanced number management</p>
+            <div class="footer-ads">
+                <p>This site uses cookies and may display advertisements to support free services.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="payment-modal" style="display: none;">
+        <div class="payment-modal-content">
+            <span class="payment-close">&times;</span>
+            <h3>Purchase Number</h3>
+            <div class="payment-details">
+                <p>Number: <span id="modalNumber">-</span></p>
+                <p>Price: <span id="modalPrice">$0.00</span></p>
+                <p>Status: <span id="modalStatus">Pending Payment</span></p>
+            </div>
+            <div class="payment-form">
+                <div class="form-group">
+                    <label for="customerName">Buyer Name:</label>
+                    <input type="text" id="customerName" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone">Phone Number: <span style="color: #718096; font-size: 0.9rem;">(Optional)</span></label>
+                    <input type="tel" id="customerPhone" placeholder="Enter your phone number (optional)">
+                </div>
+                <div class="form-group">
+                    <label for="paymentStatus">Payment Status:</label>
+                    <select id="paymentStatus">
+                        <option value="pending">Pending Payment</option>
+                        <option value="paid">Already Paid</option>
+                    </select>
+                </div>
+                <div class="payment-actions">
+                    <button id="confirmReservationBtn" class="confirm-btn">Confirm Purchase</button>
+                    <button id="cancelReservationBtn" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup/Modal Ad Container -->
+    <div id="adModal" class="ad-modal" style="display: none;">
+        <div class="ad-modal-content">
+            <span class="ad-close">&times;</span>
+            <div class="ad-placeholder" id="adModalContent">
+                <p>Advertisement</p>
+                <!-- Google AdSense Modal Ad -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_MODAL_AD_SLOT"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <!-- Ad Loading Script -->
+    <script>
+        // Load Google AdSense ads
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html> 
